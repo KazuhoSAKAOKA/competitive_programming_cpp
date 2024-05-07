@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+/.vs
+/cp_lib/x64/Debug
+/cp_lib/x64/Release
+/cp_lig_test/x64/Debug
+/cp_lig_test/x64/Release
+/packages/
+/x64/Debug
+/x64/Release
+*.user
