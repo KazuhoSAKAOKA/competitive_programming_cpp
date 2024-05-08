@@ -2,6 +2,8 @@
 #include <vector>
 #include <queue>
 #include <numeric>
+#include <algorithm>
+#include "union_find.hpp"
 
 namespace competitive_programming {
 
@@ -11,6 +13,20 @@ struct edge {
 	size_t from_;
 	size_t to_;
 };
+
+template <typename T = long long>
+static T kruskal(size_t n, std::vector<edge<T>>& edges, size_t s = 0) {
+	sort(begin(edges), end(edges), [](const auto& a, const auto& b) { return a.cost_ < b.cost_; });
+	union_find uf(n);
+	T result = 0;
+	for (auto&& edge : edges) {
+		if (!uf.same(edge.from_, edge.to_)) {
+			uf.unite(edge.from_, edge.to_);
+			result += edge.cost_;
+		}
+	}
+	return result;
+}
 
 
 template <typename T = long long>
@@ -23,11 +39,11 @@ struct adjacncy_matrix_graph {
 		struct point {
 			T cost;
 			size_t pos;
-			bool operator < (const point& other) const {
-				return cost < other.cost;
+			bool operator > (const point& other) const {
+				return cost > other.cost;
 			}
 		};
-		std::priority_queue<point> p_queue;
+		std::priority_queue<point, std::vector<point>, std::greater<point>> p_queue;
 		p_queue.push(point{ 0, s });
 		costs[s] = 0;
 
@@ -77,11 +93,11 @@ struct adjacncy_list_graph {
 		struct point {
 			T cost;
 			size_t pos;
-			bool operator < (const point& other) const {
-				return cost < other.cost;
+			bool operator > (const point& other) const {
+				return cost > other.cost;
 			}
 		};
-		std::priority_queue<point> p_queue;
+		std::priority_queue<point, std::vector<point>, std::greater<point>> p_queue;
 		p_queue.push(point{ 0, s });
 		costs[s] = 0;
 		while (!p_queue.empty()) {
@@ -102,6 +118,44 @@ struct adjacncy_list_graph {
 	T djikstra(size_t s, size_t e) const {
 		return djikstra(graph_, s, e);
 	}
+
+
+	static T prim(const std::vector<std::vector<outbound_edge>>& graph, size_t s = 0) {
+		std::vector<T> min_costs(graph.size(), std::numeric_limits<T>::max());
+		std::vector<bool> connected(graph.size(), false);
+		struct point {
+			T cost;
+			size_t pos;
+			bool operator > (const point& other) const {
+				return cost > other.cost;
+			}
+		};
+		T res = 0;
+		std::priority_queue<point, std::vector<point>, std::greater<point>> p_queue;
+		p_queue.push(point{ 0, s });
+		min_costs[s] = 0;
+		while (!p_queue.empty()) {
+			const auto [_, current] = p_queue.top();
+			p_queue.pop();
+			if (connected[current]) { continue; }
+			res += min_costs[current];
+			connected[current] = true;
+
+			for (auto&& [cost, to] : graph[current]) {
+				if (!connected[to]) {
+					min_costs[to] = min(min_costs[to], cost);
+					p_queue.push(point{ min_costs[to] , to });
+				}
+			}
+		}
+		return res;
+	}
+
+	T prim(size_t s = 0) const {
+		return prim(graph_, s);
+	}
+
+
 };
 
 
