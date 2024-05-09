@@ -28,6 +28,28 @@ static T kruskal(size_t n, std::vector<edge<T>>& edges, size_t s = 0) {
 	return result;
 }
 
+template <typename T = long long>
+static T bellman_ford(const std::vector<edge<T>>& edges, size_t s, size_t e) {
+	constexpr T INF = std::numeric_limits<T>::max();
+	vector<T> costs(graph.size(), INF);
+	costs[s] = 0;
+
+	size_t loop_counter = 0;
+	bool updated = true;
+	while (updated) {
+		updated = false;
+		for (auto&& edge : edges) {
+			if (costs[edge.from_] != INF && costs[edge.to_] > costs[edge.from_] + edge.cost_) {
+				costs[edge.to_] = costs[edge.from_] + edge.cost_;
+				updated = true;
+			}
+		}
+		loop_counter++;
+	}
+
+	return costs[e];
+}
+
 
 template <typename T = long long>
 struct adjacncy_matrix_graph {
@@ -61,6 +83,16 @@ struct adjacncy_matrix_graph {
 			}
 		}
 		return costs[e];
+	}
+
+	static void warshall_floyd(std::vector<std::vector<T>>& graph) {
+		for (int i = 0; i < graph.size(); i++) {
+			for (int j = 0; j < graph.size(); j++) {
+				for (int k = 0; k < graph.size(); k++) {
+					graph[j][k] = min(graph[i][j], graph[j][k] + graph[i][j]);
+				}
+			}
+		}
 	}
 
 };
@@ -113,6 +145,7 @@ struct adjacncy_list_graph {
 		}
 		return costs[e];
 	}
+
 
 
 	T djikstra(size_t s, size_t e) const {

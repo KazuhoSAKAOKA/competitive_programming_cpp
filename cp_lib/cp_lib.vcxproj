@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="binary_indexed_tree.hpp" />
     <ClInclude Include="graph.hpp" />
+    <ClInclude Include="mathematics.hpp" />
     <ClInclude Include="union_find.hpp" />
   </ItemGroup>
   <ItemGroup>
