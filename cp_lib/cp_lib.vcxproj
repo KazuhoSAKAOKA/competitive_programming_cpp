@@ -22,6 +22,8 @@
     <ClInclude Include="binary_indexed_tree.hpp" />
     <ClInclude Include="graph.hpp" />
     <ClInclude Include="mathematics.hpp" />
+    <ClInclude Include="segment_tree.hpp" />
+    <ClInclude Include="trie_tree.hpp" />
     <ClInclude Include="union_find.hpp" />
   </ItemGroup>
   <ItemGroup>

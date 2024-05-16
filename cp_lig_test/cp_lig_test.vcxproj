@@ -105,6 +105,7 @@
   <ItemGroup>
     <ClCompile Include="binary_indexed_tree_test.cpp" />
     <ClCompile Include="graph_test.cpp" />
+    <ClCompile Include="segment_tree_test.cpp" />
     <ClCompile Include="union_find_test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
