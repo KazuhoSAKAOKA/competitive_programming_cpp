@@ -34,7 +34,7 @@ int beam_search(const TState& state,
 	bs_state best_state{ state , -1 };
 	current_beam_queue.push(best_state);
 	time_keeper tk(duration);
-	for (int depth = 0; depth < beam_depth; beam_depth++) {
+	for (int depth = 0; depth < beam_depth; depth++) {
 		PQ next_beam_queue;
 		for (int i = 0; i < beam_width; i++) {
 			if (tk.is_overtime()) {

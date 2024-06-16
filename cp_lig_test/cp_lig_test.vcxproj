@@ -101,9 +101,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="test_utility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alpha_beta_test.cpp" />
+    <ClCompile Include="annealing_test.cpp" />
     <ClCompile Include="beam_search_test.cpp" />
     <ClCompile Include="binary_indexed_tree_test.cpp" />
     <ClCompile Include="graph_test.cpp" />
