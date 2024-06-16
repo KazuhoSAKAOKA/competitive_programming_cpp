@@ -19,10 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="alpha_beta.hpp" />
+    <ClInclude Include="annealing.hpp" />
+    <ClInclude Include="beam_search.hpp" />
     <ClInclude Include="binary_indexed_tree.hpp" />
     <ClInclude Include="graph.hpp" />
+    <ClInclude Include="hill_climb.hpp" />
     <ClInclude Include="mathematics.hpp" />
+    <ClInclude Include="point_2d.hpp" />
     <ClInclude Include="segment_tree.hpp" />
+    <ClInclude Include="time_keeper.hpp" />
     <ClInclude Include="trie_tree.hpp" />
     <ClInclude Include="union_find.hpp" />
   </ItemGroup>
