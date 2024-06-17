@@ -62,16 +62,18 @@ TEST(BeamSearchTest, SimpleTest)
 	game_board board(
 		{ 
 			{1,1,1,1,1,100,},
-			{3,1,1,1,1,1,  },
-			{3,1,1,1,1,1,  },
-			{3,1,1,1,1,1,  }, 
-			{3,1,1,1,1,1,  },
+			{2,1,1,1,1,1,  },
+			{2,1,1,1,1,1,  },
+			{2,1,1,1,1,1,  }, 
+			{2,1,1,1,1,1,  },
+			{2,1,1,1,1,1,  },
 		},
 		5);
 
 	beamsearch_test_state initial_state(&board, { point_int(0,0) });
 	
-	const auto ans1 = beam_search(initial_state, 2, 5, std::chrono::minutes(10));
+	const auto ans1 = beam_search(initial_state, 20, 5, std::chrono::minutes(10));
 	EXPECT_EQ(3, ans1);
-
+	const auto ans2 = beam_search(initial_state, 2, 5, std::chrono::minutes(10));
+	EXPECT_EQ(1, ans2);
 }

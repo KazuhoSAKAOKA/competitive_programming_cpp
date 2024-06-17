@@ -23,8 +23,11 @@ struct segment_tree {
 
 	void allocate_buffer(size_t n) {
 		size_t count = 1;
-		while (count <= n) {
+		for (;;) {
 			data_.emplace_back(std::vector<T>(count, inf_));
+			if (n <= count) {
+				break;
+			}
 			count *= 2;
 		}
 	}
@@ -82,6 +85,13 @@ struct seqment_tree_range_minimum_query : public segment_tree<T, std::function<T
 	seqment_tree_range_minimum_query(size_t n) :segment_tree(n, [](T a, T b) {return std::min(a, b); }, std::numeric_limits<T>::max()) {}
 	template <typename Container>
 	seqment_tree_range_minimum_query(Container source) :segment_tree(source, [](T a, T b) {return std::min(a, b); }, std::numeric_limits<T>::max()) {}
+};
+
+template <typename T = long long>
+struct seqment_tree_sum_query : public segment_tree<T, std::function<T(T, T)>> {
+	seqment_tree_sum_query(size_t n) :segment_tree(n, [](T a, T b) {return a + b; }, 0) {}
+	template <typename Container>
+	seqment_tree_sum_query(Container source) : segment_tree(source, [](T a, T b) {return a + b; }, 0) {}
 };
 
 template <typename T, typename Q>

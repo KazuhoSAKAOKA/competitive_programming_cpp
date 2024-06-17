@@ -145,3 +145,47 @@ TEST(SegmentTree2DTest, RMinQTest2)
 
 }
 
+
+TEST(SegmentTreeTest, SumTest)
+{
+	std::vector<long long> source{ 1,2,3,4,5,6,7,8,9,10, };
+	seqment_tree_sum_query<> st(source);
+
+	auto get_expect = [&source](size_t a, size_t b) -> long long {
+		long long total = 0;
+		for (size_t i = a; i < b; i++) {
+			total += source[i];
+		}
+		return total;
+		};
+
+	for (size_t i = 0; i < source.size(); i++) {
+		for (size_t j = i + 1; j <= source.size(); j++) {
+			const auto expect = get_expect(i, j);
+			const auto actual = st.query(i, j);
+			ASSERT_EQ(expect, actual) << "(" << i << "," << j << ")";
+		}
+	}
+
+	source[3] = 10;
+	st.update(3, 10);
+
+	for (size_t i = 0; i < source.size(); i++) {
+		for (size_t j = i + 1; j <= source.size(); j++) {
+			const auto expect = get_expect(i, j);
+			const auto actual = st.query(i, j);
+			ASSERT_EQ(expect, actual) << "(" << i << "," << j << ")";
+		}
+	}
+
+	source[9] = 15;
+	st.update(9, 15);
+
+	for (size_t i = 0; i < source.size(); i++) {
+		for (size_t j = i + 1; j <= source.size(); j++) {
+			const auto expect = get_expect(i, j);
+			const auto actual = st.query(i, j);
+			ASSERT_EQ(expect, actual) << "(" << i << "," << j << ")";
+		}
+	}
+}
