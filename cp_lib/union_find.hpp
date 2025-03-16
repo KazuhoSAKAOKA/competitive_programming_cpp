@@ -42,6 +42,10 @@ struct union_find {
     size_t size(size_t x) {
         return sizes_[root(x)];
     }
+
+    bool is_root(size_t x) {
+        return root(x) == x;
+    }
 };
 
 
