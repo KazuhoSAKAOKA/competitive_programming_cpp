@@ -19,15 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="algo.hpp" />
     <ClInclude Include="alpha_beta.hpp" />
     <ClInclude Include="annealing.hpp" />
     <ClInclude Include="beam_search.hpp" />
     <ClInclude Include="binary_indexed_tree.hpp" />
     <ClInclude Include="binary_search.hpp" />
+    <ClInclude Include="fraction.hpp" />
     <ClInclude Include="graph.hpp" />
     <ClInclude Include="hill_climb.hpp" />
+    <ClInclude Include="kdtree.hpp" />
     <ClInclude Include="manacher.h" />
     <ClInclude Include="mathematics.hpp" />
+    <ClInclude Include="persistent_segment_tree.hpp" />
     <ClInclude Include="point_2d.hpp" />
     <ClInclude Include="rolling_hash.hpp" />
     <ClInclude Include="segment_tree.hpp" />
@@ -35,6 +39,7 @@
     <ClInclude Include="time_table.hpp" />
     <ClInclude Include="trie_tree.hpp" />
     <ClInclude Include="union_find.hpp" />
+    <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="empty.cpp" />

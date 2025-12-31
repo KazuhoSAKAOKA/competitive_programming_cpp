@@ -17,17 +17,17 @@ TState hill_climb(const TState& state, int number, double start_temperature, dou
 	auto now_state(state);
 
 	for (int i = 0; i < number; i++) {
-		auto next_state = next_state.transition();
+		auto next_state = now_state.transition();
 		auto next_score = next_state.get_score();
 
 
 		const double temperature = start_temperature + (end_temperature - start_temperature) * (i / number);
-		const double probability = exp((next_score - now_score) / temp);
+		const double probability = exp((next_score - now_score) / temperature);
 		const bool is_force_next = probability > (mt_for_action() % INF) / (double)INF;
 
-		if (next_score > best_score || is_force_next) {
-			best_score = next_score;
-			best_state = next_state;
+		if (next_score > now_score || is_force_next) {
+			now_score = next_score;
+			now_state = next_state;
 		}
 
 		if (next_score > best_score) {

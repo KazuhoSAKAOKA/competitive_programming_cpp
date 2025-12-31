@@ -29,9 +29,9 @@ static T kruskal(size_t n, std::vector<edge<T>>& edges, size_t s = 0) {
 }
 
 template <typename T = long long>
-static T bellman_ford(const std::vector<edge<T>>& edges, size_t s, size_t e) {
+static T bellman_ford(size_t n, const std::vector<edge<T>>& edges, size_t s, size_t e) {
 	constexpr T INF = std::numeric_limits<T>::max();
-	vector<T> costs(graph.size(), INF);
+	vector<T> costs(n, INF);
 	costs[s] = 0;
 
 	size_t loop_counter = 0;
@@ -85,11 +85,11 @@ struct adjacncy_matrix_graph {
 		return costs[e];
 	}
 
-	static void warshall_floyd(std::vector<std::vector<T>>& graph) {
-		for (int i = 0; i < graph.size(); i++) {
-			for (int j = 0; j < graph.size(); j++) {
-				for (int k = 0; k < graph.size(); k++) {
-					graph[j][k] = min(graph[i][j], graph[j][k] + graph[i][j]);
+	static void warshall_floyd(std::vector<std::vector<T>>& dist) {
+		for (int k = 0; k < V; k++) {
+			for (int i = 0; i < V; i++) {
+				for (int j = 0; j < V; j++) {
+					dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
 				}
 			}
 		}
@@ -191,5 +191,35 @@ struct adjacncy_list_graph {
 
 };
 
+
+using graph_t = std::vector<std::vector<int>>;
+static std::vector<int> topo_sort(const graph_t& G) {  // bfs
+	std::vector<int> ans;
+	int n = (int)G.size();
+	std::vector<int> ind(n);            // ind[i]: 頂点iに入る辺の数(次数)
+	for (int i = 0; i < n; i++) {  // 次数を数えておく
+		for (auto e : G[i]) {
+			ind[e]++;
+		}
+	}
+	std::queue<int> que;
+	for (int i = 0; i < n; i++) {  // 次数が0の点をキューに入れる
+		if (ind[i] == 0) {
+			que.push(i);
+		}
+	}
+	while (!que.empty()) {  // 幅優先探索
+		int now = que.front();
+		ans.push_back(now);
+		que.pop();
+		for (auto e : G[now]) {
+			ind[e]--;
+			if (ind[e] == 0) {
+				que.push(e);
+			}
+		}
+	}
+	return ans;
+}
 
 }

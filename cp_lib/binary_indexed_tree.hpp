@@ -4,50 +4,96 @@
 
 namespace competitive_programming {
 
+//
+//template<typename T>
+//struct binary_indexed_tree {
+//
+//    inline static size_t lsb(size_t i) {
+//        return i == 0 ? 0 : i & ~(i - 1);
+//    }
+//
+//    size_t n;
+//    vector<T> data;
+//    //コンストラクタ
+//    binary_indexed_tree(size_t n) :n(n), data(n + 1, 0) {}
+//
+//    void add(size_t i, T x) {
+//        i++;
+//        if (i == 0) return;
+//        for (size_t k = i; k <= n; k += (k & -k)) {
+//            data[k] += x;
+//        }
+//    }
+//
+//    T sum(size_t i, size_t j) {
+//        return sum_sub(j) - sum_sub(i - 1);
+//    }
+//
+//    T sum_sub(size_t i) {
+//        i++;
+//        T s = 0;
+//        if (i == 0) return s;
+//        for (size_t k = i; k > 0; k -= (k & -k)) {
+//            s += data[k];
+//        }
+//        return s;
+//    }
+//
+//    size_t lower_bound(T x) {
+//        if (x <= 0) {
+//            //xが0以下の場合は該当するものなし→0を返す
+//            return 0;
+//        }
+//        else {
+//            size_t i = 0; size_t r = 1;
+//            //最大としてありうる区間の長さを取得する
+//            //n以下の最小の二乗のべき(BITで管理する数列の区間で最大のもの)を求める
+//            while (r < n) r = r << 1;
+//            //区間の長さは調べるごとに半分になる
+//            for (int len = r; len > 0; len = len >> 1) {
+//                //その区間を採用する場合
+//                if (i + len < n && data[i + len] < x) {
+//                    x -= data[i + len];
+//                    i += len;
+//                }
+//            }
+//            return i;
+//        }
+//    }
+//};
+//
+
 
 template<typename T>
-struct binary_indexed_tree {
+class binary_indexed_tree {
+    int n;
+    std::vector<T> data;
 
-    inline static size_t lsb(size_t i) {
-        return i == 0 ? 0 : i & ~(i - 1);
-    }
+public:
+    binary_indexed_tree(int size) : n(size), data(size + 1, 0) {}
 
-    size_t n_;
-    std::vector<T> data_;
-    binary_indexed_tree(T n) : n_(n), data_(n + 1, 0) {}
-
-    binary_indexed_tree(std::initializer_list<T> init) : n_(init.size()), data_(init.size() + 1, 0) {
-        size_t i = 1;
-        for (auto it = cbegin(init); it != cend(init); ++it, ++i) {
-            const auto x = *it;
-            data_[i] += x;
-            const auto j = i + lsb(i);
-            if j < table.len() {
-                data_[j] += data[i];
-            }
+    // i番目にxを加算（0-indexed）
+    void add(int i, T x) {
+        ++i; // 1-indexedに変換
+        while (i <= n) {
+            data[i] += x;
+            i += i & -i;
         }
     }
 
-    void add(size_t index, T value) {
-        index++;
-        if (index == 0) { return; }
-        for (size_t i = index; i <= n_; i += lsb(i)) {
-            data_[i] += value;
+    // [0, i) の累積和（0-indexed）
+    T sum(int i) const {
+        T res = 0;
+        while (i > 0) {
+            res += data[i];
+            i -= i & -i;
         }
+        return res;
     }
 
-    T get(size_t index1, size_t index2) {
-        return get(index2) - get(index1);
-    }
-
-    T get(size_t index) {
-        index++;
-        T s(0);
-        if (index == 0) { return s; }
-        for (size_t i = index; i > 0; i -= lsb(i)) {
-            s += data_[i];
-        }
-        return s;
+    // [l, r) の累積和（0-indexed）
+    T sum(int l, int r) const {
+        return sum(r) - sum(l);
     }
 };
 
